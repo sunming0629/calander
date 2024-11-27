@@ -3,7 +3,7 @@
  * @Author: sunming
  * @Date: 2024-08-12 17:23:57
  * @LastEditors: sunming
- * @LastEditTime: 2024-11-22 18:25:43
+ * @LastEditTime: 2024-11-27 10:22:11
  * @Description: 
 -->
 <template>
@@ -249,14 +249,14 @@
 </template>
 
 <script lang="ts" setup>
+import { Edit, Plus, Check, EditPen, Delete } from '@element-plus/icons-vue'
 import { ref, inject, isRef, watch, defineEmits, reactive, onMounted } from "vue";
 import CustomerBox from "../components/customerBox.vue";
 import dayjs from "dayjs";
 import { ElMessage } from "element-plus";
-
+import { getScheduleList, addSchedule, updateSchedule, deleteSchedule } from '../api/index'
 const loading = ref<boolean>(false);
 const queryForm = reactive<any>({});
-const defReq: Record<string, any> | undefined = inject("defReq");
 const tableFullscreen = ref<boolean>(false);
 const title = ref<any>("");
 const formRef = ref();
@@ -319,7 +319,7 @@ const getList = () => {
   queryForm.endDate = dayjs(new Date(date.getFullYear(), date.getMonth() + 1, 0)).format(
     "YYYY-MM-DD"
   );
-  defReq?.calander.getScheduleList(queryForm).then((res: any) => {
+  getScheduleList(queryForm).then((res: any) => {
     if (res.code == 20000) {
       res.data.forEach((item: any) => {
         item.background = ~~(360 * Math.random());
@@ -441,7 +441,7 @@ const addNewItem = () => {
       newItemForm.value.status = 0;
       newItemForm.value.scheduleDate =
         dayjs(newItemForm.value.scheduleDate).format("YYYY-MM-DD") + " 00:00:00";
-      defReq?.calander.addSchedule(newItemForm.value).then((res: any) => {
+      addSchedule(newItemForm.value).then((res: any) => {
         if (res.code == 20000) {
           ElMessage.success("添加成功");
           getList();
@@ -472,7 +472,7 @@ const saveItem = () => {
       newItemForm.value.status = 0;
       newItemForm.value.scheduleDate =
         dayjs(newItemForm.value.scheduleDate).format("YYYY-MM-DD") + " 00:00:00";
-      defReq?.calander.updateSchedule(newItemForm.value).then((res: any) => {
+      updateSchedule(newItemForm.value).then((res: any) => {
         if (res.code == 20000) {
           ElMessage.success("更新成功");
           getList();
@@ -503,7 +503,7 @@ const editItem = (data: any, type: any) => {
     //   "YYYY-MM-DD"
     // );
     newItemForm.value.status = 1;
-    defReq?.calander.updateSchedule(newItemForm.value).then((res: any) => {
+    updateSchedule(newItemForm.value).then((res: any) => {
       if (res.code == 20000) {
         ElMessage.success("更新成功");
         getList();
@@ -536,7 +536,7 @@ const changeRemind = () => {
 };
 
 const deleteItem = (item: any) => {
-  defReq?.calander.deleteSchedule({ id: item.id }).then((res: any) => {
+  deleteSchedule({ id: item.id }).then((res: any) => {
     if (res.code == 20000) {
       ElMessage.success("删除成功");
       getList();

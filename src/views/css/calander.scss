@@ -17,6 +17,9 @@
 
       .header {
         display: flex;
+        height: 10vh;
+        padding-top: 10px;
+        box-sizing: border-box;
 
         .el-button {
           padding: 0 10px;
@@ -58,8 +61,8 @@
       }
 
       .body {
-        height: calc(100% - 42px);
-        overflow-y: scroll;
+        height: 89vh;
+        overflow-y: hidden;
         padding: 0 12px;
 
         :deep() {
@@ -168,10 +171,12 @@
             color: var(--el-color-black);
             height: 60px;
             overflow-y: scroll;
-
             .item {
               margin-bottom: 4px;
             }
+          }
+          .category-box::-webkit-scrollbar {
+            display: none; /* Chrome Safari */
           }
         }
 

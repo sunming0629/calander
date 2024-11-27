@@ -2,8 +2,20 @@
   <router-view/>
 </template>
 
+<style>
+@import url(./assets/iconfont/iconfont.css);
+</style>
 <style lang="scss">
+body{
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
 #app {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: rgba($color: #000000, $alpha: 0.1);
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
